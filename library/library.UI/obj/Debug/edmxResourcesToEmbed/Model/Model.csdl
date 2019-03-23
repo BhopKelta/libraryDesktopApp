@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="libraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="authorname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book" Relationship="Self.FK__Book__AuthorId__3D5E1FD2" FromRole="Author" ToRole="Book" />
+    <NavigationProperty Name="AuthorLovesGenres" Relationship="libraryModel.FK__AuthorLov__Autho__4222D4EF" FromRole="Author" ToRole="AuthorLovesGenres" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bookname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="releasedate" Type="DateTime" Precision="3" />
+    <Property Name="AuthorId" Type="Int32" Nullable="false" />
+    <Property Name="GenreId" Type="Int32" Nullable="false" />
+    <Property Name="PublisherId" Type="Int32" />
+    <NavigationProperty Name="Author" Relationship="Self.FK__Book__AuthorId__3D5E1FD2" FromRole="Book" ToRole="Author" />
+    <NavigationProperty Name="Genre" Relationship="Self.FK__Book__GenreId__3E52440B" FromRole="Book" ToRole="Genre" />
+    <NavigationProperty Name="Publisher" Relationship="Self.FK__Book__PublisherI__3F466844" FromRole="Book" ToRole="Publisher" />
+  </EntityType>
+  <EntityType Name="Genre">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="genrename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book" Relationship="Self.FK__Book__GenreId__3E52440B" FromRole="Genre" ToRole="Book" />
+    <NavigationProperty Name="AuthorLovesGenres" Relationship="libraryModel.FK__AuthorLov__Genre__4316F928" FromRole="Genre" ToRole="AuthorLovesGenres" />
+  </EntityType>
+  <EntityType Name="Publisher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="publishername" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book" Relationship="Self.FK__Book__PublisherI__3F466844" FromRole="Publisher" ToRole="Book" />
+  </EntityType>
+  <Association Name="FK__Book__AuthorId__3D5E1FD2">
+    <End Role="Author" Type="Self.Author" Multiplicity="1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Book__GenreId__3E52440B">
+    <End Role="Genre" Type="Self.Genre" Multiplicity="1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Book__PublisherI__3F466844">
+    <End Role="Publisher" Type="Self.Publisher" Multiplicity="0..1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publisher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="PublisherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="libraryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Author" EntityType="Self.Author" />
+    <EntitySet Name="Book" EntityType="Self.Book" />
+    <EntitySet Name="Genre" EntityType="Self.Genre" />
+    <EntitySet Name="Publisher" EntityType="Self.Publisher" />
+    <AssociationSet Name="FK__Book__AuthorId__3D5E1FD2" Association="Self.FK__Book__AuthorId__3D5E1FD2">
+      <End Role="Author" EntitySet="Author" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Book__GenreId__3E52440B" Association="Self.FK__Book__GenreId__3E52440B">
+      <End Role="Genre" EntitySet="Genre" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Book__PublisherI__3F466844" Association="Self.FK__Book__PublisherI__3F466844">
+      <End Role="Publisher" EntitySet="Publisher" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <EntitySet Name="AuthorLovesGenres" EntityType="libraryModel.AuthorLovesGenres" />
+    <AssociationSet Name="FK__AuthorLov__Autho__4222D4EF" Association="libraryModel.FK__AuthorLov__Autho__4222D4EF">
+      <End Role="Author" EntitySet="Author" />
+      <End Role="AuthorLovesGenres" EntitySet="AuthorLovesGenres" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AuthorLov__Genre__4316F928" Association="libraryModel.FK__AuthorLov__Genre__4316F928">
+      <End Role="Genre" EntitySet="Genre" />
+      <End Role="AuthorLovesGenres" EntitySet="AuthorLovesGenres" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AuthorLovesGenres">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AuthorId" Type="Int32" Nullable="false" />
+    <Property Name="GenreId" Type="Int32" Nullable="false" />
+    <Property Name="StillLovesGenre" Type="Boolean" />
+    <NavigationProperty Name="Author" Relationship="libraryModel.FK__AuthorLov__Autho__4222D4EF" FromRole="AuthorLovesGenres" ToRole="Author" />
+    <NavigationProperty Name="Genre" Relationship="libraryModel.FK__AuthorLov__Genre__4316F928" FromRole="AuthorLovesGenres" ToRole="Genre" />
+  </EntityType>
+  <Association Name="FK__AuthorLov__Autho__4222D4EF">
+    <End Type="libraryModel.Author" Role="Author" Multiplicity="1" />
+    <End Type="libraryModel.AuthorLovesGenres" Role="AuthorLovesGenres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AuthorLovesGenres">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AuthorLov__Genre__4316F928">
+    <End Type="libraryModel.Genre" Role="Genre" Multiplicity="1" />
+    <End Type="libraryModel.AuthorLovesGenres" Role="AuthorLovesGenres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AuthorLovesGenres">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
